@@ -1,4 +1,4 @@
-import WordleGame from  "../Components/WordleGame"
+import WordleGame from  "../Components/WordleGame/WordleGame"
 
 export default function Wordle() {
     return (
