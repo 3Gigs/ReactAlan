@@ -16,10 +16,10 @@ export default function Board({ rowC }: BoardProps) {
      * Initialize board with rows
      */
     useEffect(() => {
-        let result: JSX.Element[] = [];
+        const result: JSX.Element[] = [];
 
         for (let i = 0; i < rowC; i++) {
-            result = [...result, <Row cols={WLENGTH} />];
+            result.push(<Row cols={WLENGTH} />);
         }
         setRows(result);
     }, [rowC]);
