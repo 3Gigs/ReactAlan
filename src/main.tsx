@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './css/App.css'
+import App from './App'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Wordle from "./Routes/Wordle"
 import './css/index.css'

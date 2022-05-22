@@ -1,4 +1,4 @@
-import { useEffect, useState, Children } from "react"
+import { useEffect } from "react"
 import Row from "./Row"
 
 const CHARS = "abcdefghijklmnopqrstuvwxyz";
@@ -24,5 +24,5 @@ export default function Board(props: {rowC: Readonly<number>}) {
         return rowArr;
     }
 
-    return (<ul>{setRows(5)}</ul>);
+    return (<div className="Board">{setRows(TRIES)}</div>);
 }

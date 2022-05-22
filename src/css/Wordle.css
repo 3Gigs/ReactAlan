@@ -1,3 +1,18 @@
 .Board {
-    border-width: 5em;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    flex-direction: column;
+}
+
+.Square {
+    background-color: whitesmoke;
+    display: inline-block;
+    font-size: 2rem;
+    padding: 1em;
+    margin: 5px
+}
+
+.Row {
+    background-color: lightblue;
 }

@@ -1,8 +1,11 @@
 import Square from "./Square"
-import {useState} from "react"
 
 export default function(props: {cols: number}) {
-    const [squares, setSquares] = useState(new Array(props.cols));
+    let squares: JSX.Element[] = [];
 
-    return <h1>Test</h1>;
+    for(let i = 0; i < props.cols; i++) {
+        squares = [...squares, <Square char={"d"} status={1}/>]
+    }
+
+    return (<div className="Row">{squares}</div>);
 }
