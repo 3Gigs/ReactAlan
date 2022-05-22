@@ -1,36 +1,54 @@
-import { useEffect, useState } from "react"
-import Row from "./Row"
+import { useEffect, useState } from "react";
+import Row from "./Row";
 
 const CHARS = "abcdefghijklmnopqrstuvwxyz";
 const TRIES = 5;
 const WLENGTH = 5;
 
-export default function Board(props: {rowC: Readonly<number>}) {
-    const [rows, setRows] = useState<JSX.Element[]>([]);
+export default function Board(props: { rowC: number }) {
+  const [rows, setRows] = useState<JSX.Element[]>([]);
+  const [currInput, setInput] = useState("");
 
-    function setBoard(rowC: Readonly<number>) {
-        let result: JSX.Element[] = []
+  function setBoard(rowC: Readonly<number>) {
+    let result: JSX.Element[] = [];
 
-        for(let i = 0; i < rowC; i++)  {
-            result = [...result, <Row cols={WLENGTH} />];
-        }
-        
-        setRows(result);
+    for (let i = 0; i < rowC; i++) {
+      result = [...result, <Row cols={WLENGTH} />];
     }
 
-    useEffect(() => {
-        setBoard(TRIES);
-    }, []);
+    setRows(result);
+  }
 
-    useEffect(() => {
-        let currRow = 0;
+  function setRow(index: number, word: string) {
+    let result = rows;
 
-        document.addEventListener("keydown", event => {
-            if(CHARS.indexOf(event.key) > 0) {
-            }
-        })
-    })
+    result[index]= <Row cols={WLENGTH} word={"test"} />;
 
+    setRows(result);
+  }
 
-    return (<div className="Board">{rows}</div>);
+  useEffect(() => {
+    setBoard(TRIES);
+    console.log(rows);
+  }, []);
+
+  useEffect(() => {
+    let currRow = 0;
+    let isHoldingKey = false;
+
+    document.addEventListener("keydown", (event) => {
+      if (CHARS.indexOf(event.key) >= 0 && !isHoldingKey) {
+        isHoldingKey = true;
+        setInput((c) => c + event.key);
+        console.log(currInput);
+        setRow(0, currInput);
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      isHoldingKey = false;
+    });
+  }, []);
+
+  return <div className="Board">{rows}</div>;
 }
