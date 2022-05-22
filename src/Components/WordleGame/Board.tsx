@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Row from "./Row";
 
 const CHARS = "abcdefghijklmnopqrstuvwxyz";
-const TRIES = 5;
 const WLENGTH = 5;
 
 type BoardProps = {
@@ -13,46 +12,29 @@ export default function Board({ rowC }: BoardProps) {
     const [rows, setRows] = useState<JSX.Element[]>([]);
     const [currInput, setInput] = useState("");
 
-    function setBoard(rowC: Readonly<number>) {
+    useEffect(() => {
         let result: JSX.Element[] = [];
 
         for (let i = 0; i < rowC; i++) {
             result = [...result, <Row cols={WLENGTH} />];
         }
-
         setRows(result);
-    }
-
-    function setRow(index: number, word: string) {
-        const result = rows;
-
-        result[index] = <Row cols={WLENGTH} word="test" />;
-
-        setRows(result);
-    }
+    }, [rowC]);
 
     useEffect(() => {
-        setBoard(TRIES);
-        console.log(rows);
-    }, []);
-
-    useEffect(() => {
-        const currRow = 0;
-        let isHoldingKey = false;
-
-        document.addEventListener("keydown", (event) => {
-            if (CHARS.indexOf(event.key) >= 0 && !isHoldingKey) {
-                isHoldingKey = true;
-                setInput((c) => c + event.key);
+        const appendCharToInput = (n: string) => setInput((e) => e + n);
+        const handler = (e: KeyboardEvent) => {
+            if (!e.repeat && CHARS.indexOf(e.key) >= 0) {
+                appendCharToInput(e.key);
                 console.log(currInput);
-                setRow(0, currInput);
             }
-        });
+        };
+        document.addEventListener("keydown", handler);
 
-        document.addEventListener("keyup", (e) => {
-            isHoldingKey = false;
-        });
-    }, []);
+        return function cleanup() {
+            document.removeEventListener("keydown", handler);
+        };
+    }, [currInput]);
 
     return <div className="Board">{rows}</div>;
 }
