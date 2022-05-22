@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import App from './css/App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Wordle from "./Routes/Wordle"
-import './index.css'
+import './css/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>

@@ -16,8 +16,6 @@ export default function Board(props: {rowC: Readonly<number>}) {
 
     function setRows(rowC: Readonly<number>) {
         let rowArr: Array<JSX.Element> = []
-        
-        const xdd = <li>{rowC}</li>
 
         for(let i = 0; i < rowC; i++)  {
             rowArr = [...rowArr, <Row cols={WLENGTH} />]
@@ -25,8 +23,6 @@ export default function Board(props: {rowC: Readonly<number>}) {
 
         return rowArr;
     }
-
-     const rows = setRows(5);
 
     return (<ul>{setRows(5)}</ul>);
 }

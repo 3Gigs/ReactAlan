@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 import { useEffect} from "react";
 import alanBtn from "@alan-ai/alan-sdk-web";
 import { Link } from "react-router-dom"

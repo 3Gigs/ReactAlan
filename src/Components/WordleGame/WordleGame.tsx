@@ -1,9 +1,8 @@
 import Board from "./Board"
+import "../../css/Wordle.css"
 
-export default function Wordle() {
+export default function WordleGame() {
     return(
-        <div>
-            <Board rowC={5} />
-        </div>
+        <div className="Board"><Board rowC={5} /></div>
     )
 }
