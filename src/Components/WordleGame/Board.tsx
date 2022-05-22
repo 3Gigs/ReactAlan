@@ -24,6 +24,7 @@ export default function Board(props: {rowC: Readonly<number>}) {
 
     useEffect(() => {
         let currRow = 0;
+
         document.addEventListener("keydown", event => {
             if(CHARS.indexOf(event.key) > 0) {
             }

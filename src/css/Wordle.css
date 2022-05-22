@@ -8,11 +8,12 @@
 .Square {
     background-color: whitesmoke;
     display: inline-block;
-    font-size: 2rem;
+    font-size: 3vh;
     padding: 1em;
     margin: 5px
 }
 
 .Row {
     background-color: lightblue;
+    display: flex;
 }
