@@ -1,8 +1,8 @@
-import Board from "./Board"
-import "../../css/Wordle.css"
+import Board from "./Board";
+import "../../css/Wordle.css";
 
 export default function WordleGame() {
-    return(
+    return (
         <Board rowC={5} />
-    )
+    );
 }

@@ -5,7 +5,7 @@ module.exports = {
     },
     extends: [
         "airbnb",
-        "plugin:react-hooks/recommende"
+        "plugin:react-hooks/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -29,6 +29,7 @@ module.exports = {
         "react/jsx-filename-extension": "off",
         "react/require-default-props": "off",
         "react/jsx-indent": "off",
+        "react/no-unescaped-entities": "off",
         "no-plusplus": "off",
         "no-console": "off",
     },
