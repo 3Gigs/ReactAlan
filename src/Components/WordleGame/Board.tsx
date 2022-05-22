@@ -12,6 +12,9 @@ export default function Board({ rowC }: BoardProps) {
     const [rows, setRows] = useState<JSX.Element[]>([]);
     const [currInput, setInput] = useState("");
 
+    /**
+     * Initialize board with rows
+     */
     useEffect(() => {
         let result: JSX.Element[] = [];
 
@@ -21,6 +24,9 @@ export default function Board({ rowC }: BoardProps) {
         setRows(result);
     }, [rowC]);
 
+    /**
+     * Handle keyboard and input
+     */
     useEffect(() => {
         const appendCharToInput = (n: string) => setInput((e) => e + n);
         const handler = (e: KeyboardEvent) => {
