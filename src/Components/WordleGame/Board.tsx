@@ -1,13 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState, Children } from "react"
+import Row from "./Row"
 
-export default function Board() {
-    const [words, setWords] = useState(new Array(5));
+const CHARS = "abcdefghijklmnopqrstuvwxyz";
+const TRIES = 5;
+const WLENGTH = 5;
 
-    function addWord(word: string) {
-        setWords([...word])
+export default function Board(props: {rowC: Readonly<number>}) {
+    useEffect(() => {
+        let counter = 0;
+        document.addEventListener("keydown", event => {
+            if(CHARS.indexOf(event.key) > 0) {
+            }
+        })
+    })
+
+    function setRows(rowC: Readonly<number>) {
+        let rowArr: Array<JSX.Element> = []
+        
+        const xdd = <li>{rowC}</li>
+
+        for(let i = 0; i < rowC; i++)  {
+            rowArr = [...rowArr, <Row cols={WLENGTH} />]
+        }
+
+        return rowArr;
     }
 
-    return (
-        <h1>Would be Wordle board {words}</h1>
-    )
+     const rows = setRows(5);
+
+    return (<ul>{setRows(5)}</ul>);
 }

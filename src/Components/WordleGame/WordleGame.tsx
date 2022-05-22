@@ -3,7 +3,7 @@ import Board from "./Board"
 export default function Wordle() {
     return(
         <div>
-            <Board />
+            <Board rowC={5} />
         </div>
     )
 }
