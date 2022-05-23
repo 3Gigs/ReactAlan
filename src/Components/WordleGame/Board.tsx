@@ -9,42 +9,56 @@ type BoardProps = {
     rowC: number;
 }
 
+type RowProps = {
+    id: string;
+    word: string;
+}
+
 export default function Board({ rowC }: BoardProps) {
-    const [rows, setRows] = useState<JSX.Element[]>([]);
-    const [currRow, setCurrRow] = useState(0);
-    const [currInput, setInput] = useState("");
+    const [rows, setRows] = useState<RowProps[]>([]);
+    const [currRow, setCurrRow] = useState<number>(0);
 
     /**
      * Initialize board with rows
      */
     useEffect(() => {
-        const result: JSX.Element[] = [];
+        const result: RowProps[] = [];
 
         for (let i = 0; i < rowC; i++) {
-            result.push(<Row cols={WLENGTH} key={uuidv4()} />);
+            result.push({ id: uuidv4(), word: "" });
         }
+
         setRows(result);
     }, [rowC]);
     /**
      * Handle keyboard and input
      */
     useEffect(() => {
-        function setRow(index: number, word: string) {
-            const newRows = rows.map((e: JSX.Element, i: number) => {
-                if (i === index) {
-                    return <Row cols={WLENGTH} word={word} key={uuidv4()} />;
+        function appendCharToRow(row: number, char: string) {
+            const result = rows.map((e, i) => {
+                if (i === row) {
+                    return { id: e.id, word: e.word + char };
                 }
                 return e;
             });
-            setRows(newRows);
+            setRows(result);
         }
-
-        const appendCharToInput = (n: string) => setInput((e) => e + n);
+        function backspaceCharToRow(row: number) {
+            const result = rows.map((e, i) => {
+                if (i === row) {
+                    return { id: e.id, word: e.word.slice(0, e.word.length - 1) };
+                }
+                return e;
+            });
+            setRows(result);
+        }
         const handler = (e: KeyboardEvent) => {
-            if (!e.repeat && CHARS.indexOf(e.key) >= 0) {
-                appendCharToInput(e.key);
-                setRow(currRow, currInput);
-                console.log(currInput);
+            if (!e.repeat) {
+                if (CHARS.indexOf(e.key) >= 0) {
+                    appendCharToRow(currRow, "x");
+                } else if (e.key === "Backspace") {
+                    backspaceCharToRow(currRow);
+                }
             }
         };
         document.addEventListener("keydown", handler);
@@ -52,7 +66,11 @@ export default function Board({ rowC }: BoardProps) {
         return function cleanup() {
             document.removeEventListener("keydown", handler);
         };
-    }, [currInput, currRow, rows]);
+    }, [rows, currRow]);
 
-    return <div className="Board">{rows}</div>;
+    return (
+        <div className="Board">
+            {rows.map((e) => <Row cols={WLENGTH} word={e.word} key={e.id} />)}
+        </div>
+    );
 }

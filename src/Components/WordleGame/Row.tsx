@@ -3,7 +3,7 @@ import Square from "./Square";
 
 type RowProps = {
     cols: number,
-    word?: string
+    word: string
 }
 
 function getCharFromWord(word: string, index: number) {
@@ -19,7 +19,7 @@ export default function Row({ cols, word }: RowProps) {
         let result: JSX.Element[] = [];
 
         for (let i = 0; i < cols; i++) {
-            result = [...result, <Square char={(word ? getCharFromWord(word, i) : undefined) ?? "⠀"} status={1} key={uuidv4()} />];
+            result = [...result, <Square char={word.charAt(i)} status={1} key={uuidv4()} />];
         }
 
         return result;
