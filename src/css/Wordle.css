@@ -17,9 +17,7 @@
     background-color: lightblue;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    /**
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    */
 }

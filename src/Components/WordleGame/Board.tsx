@@ -55,7 +55,7 @@ export default function Board({ rowC }: BoardProps) {
         const handler = (e: KeyboardEvent) => {
             if (!e.repeat) {
                 if (CHARS.indexOf(e.key) >= 0) {
-                    appendCharToRow(currRow, "x");
+                    appendCharToRow(currRow, e.key);
                 } else if (e.key === "Backspace") {
                     backspaceCharToRow(currRow);
                 }
