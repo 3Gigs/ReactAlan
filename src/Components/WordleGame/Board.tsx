@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { alanKey } from "../../../config.json";
+import { RowProps } from "./Row";
 import Row from "./Row";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
@@ -18,6 +20,13 @@ export default function Board({ rowC }: BoardProps) {
     const [rows, setRows] = useState<RowProps[]>([]);
     const [currRow, setCurrRow] = useState<number>(0);
 
+    useEffect(() => {
+        alanBtn({
+            key: alanKey,
+            onCommand: (commandData) => {
+            },
+        });
+    }, []);
     /**
      * Initialize board with rows
      */
