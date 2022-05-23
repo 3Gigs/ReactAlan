@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Row from "./Row";
 
-const CHARS = "abcdefghijklmnopqrstuvwxyz";
-const WLENGTH = 5;
+export const CHARS = "abcdefghijklmnopqrstuvwxyz";
+export const WLENGTH = 5;
 
 type BoardProps = {
     rowC: number;
@@ -36,7 +36,7 @@ export default function Board({ rowC }: BoardProps) {
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
             const result = rows.map((e, i) => {
-                if (i === row) {
+                if (i === row && (e.word.length + 1) <= WLENGTH) {
                     return { id: e.id, word: e.word + char };
                 }
                 return e;

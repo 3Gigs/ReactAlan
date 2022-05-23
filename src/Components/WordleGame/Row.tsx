@@ -6,14 +6,16 @@ type RowProps = {
     word: string
 }
 
-function getCharFromWord(word: string, index: number) {
-    const result = word.charAt(index);
-    if (result.length <= 0) {
-        return undefined;
-    }
-    return result;
-}
-
+/**
+ * The Row component in a Wordle board
+ * 
+ * If word length is greater than cols, then the rest of the characters will 
+ * be trimmed while creating the wordle squares, but the word variable will 
+ * remain intact. 
+ * 
+ * In other words, make sure the word length is **not greater** than the column provided!
+ * 
+ */
 export default function Row({ cols, word }: RowProps) {
     function rows() {
         let result: JSX.Element[] = [];

@@ -32,5 +32,6 @@ module.exports = {
         "react/no-unescaped-entities": "off",
         "no-plusplus": "off",
         "no-console": "off",
+        "no-trailing-spaces": "off",
     },
 };
