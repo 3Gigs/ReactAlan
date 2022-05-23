@@ -1,9 +1,20 @@
 import "../../css/Wordle.css";
 
-export default function Square(props: {char: string, status: number}) {
-    const { char } = props;
+/* eslint-disable no-unused-vars */
+export enum SquareStatus {
+    "SquareWrong" = -1,
+    "SquareNeutral" = 0,
+    "SquareCorrect" = 1
+}
 
+type SquareProps = {
+    char: string;
+    status: SquareStatus
+}
+
+export default function Square({ char, status }: SquareProps) {
+    console.log(status);
     return (
-        <div className="Square">{char}</div>
+        <div className={`Square ${SquareStatus[status]}`}>{char}</div>
     );
 }

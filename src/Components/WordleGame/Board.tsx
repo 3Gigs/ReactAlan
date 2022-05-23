@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import alanBtn from "@alan-ai/alan-sdk-web";
 import { alanKey } from "../../../config.json";
 import { RowProps } from "./Row";
 import Row from "./Row";
@@ -11,13 +12,10 @@ type BoardProps = {
     rowC: number;
 }
 
-type RowProps = {
-    id: string;
-    word: string;
-}
+type idRowProps = RowProps & {id: string};
 
 export default function Board({ rowC }: BoardProps) {
-    const [rows, setRows] = useState<RowProps[]>([]);
+    const [rows, setRows] = useState<idRowProps[]>([]);
     const [currRow, setCurrRow] = useState<number>(0);
 
     useEffect(() => {
@@ -31,10 +29,10 @@ export default function Board({ rowC }: BoardProps) {
      * Initialize board with rows
      */
     useEffect(() => {
-        const result: RowProps[] = [];
+        const result: idRowProps[] = [];
 
         for (let i = 0; i < rowC; i++) {
-            result.push({ id: uuidv4(), word: "" });
+            result.push({ word: "", id: uuidv4(), rowStatus: [0, 0, 0, 0, 0] });
         }
 
         setRows(result);
@@ -44,22 +42,33 @@ export default function Board({ rowC }: BoardProps) {
      */
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
-            const result = rows.map((e, i) => {
+            const result = rows.map((e, i): idRowProps => {
                 if (i === row && (e.word.length + 1) <= WLENGTH) {
-                    return { id: e.id, word: e.word + char };
+                    return { rowStatus: e.rowStatus, id: e.id, word: e.word + char };
                 }
                 return e;
             });
             setRows(result);
         }
         function backspaceCharToRow(row: number) {
-            const result = rows.map((e, i) => {
+            const result = rows.map((e, i): idRowProps => {
                 if (i === row) {
-                    return { id: e.id, word: e.word.slice(0, e.word.length - 1) };
+                    return { 
+                        rowStatus: e.rowStatus, 
+                        id: e.id, 
+                        word: e.word.slice(0, e.word.length - 1),
+                    };
                 }
                 return e;
             });
             setRows(result);
+        }
+        function checkRow() {
+
+        }
+        function handleGameNextAction() {
+            checkRow();
+            setCurrRow((r) => r + 1);
         }
         const handler = (e: KeyboardEvent) => {
             if (!e.repeat) {
@@ -67,6 +76,8 @@ export default function Board({ rowC }: BoardProps) {
                     appendCharToRow(currRow, e.key);
                 } else if (e.key === "Backspace") {
                     backspaceCharToRow(currRow);
+                } else if (e.key === "Enter") {
+                    handleGameNextAction();
                 }
             }
         };
@@ -79,7 +90,7 @@ export default function Board({ rowC }: BoardProps) {
 
     return (
         <div className="Board">
-            {rows.map((e) => <Row cols={WLENGTH} word={e.word} key={e.id} />)}
+            {rows.map((e) => <Row word={e.word} key={e.id} rowStatus={e.rowStatus} />)}
         </div>
     );
 }

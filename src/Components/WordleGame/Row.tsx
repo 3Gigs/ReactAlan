@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import Square from "./Square";
+import { WLENGTH } from "./Board";
+import Square, { SquareStatus } from "./Square";
 
-type RowProps = {
-    cols: number,
-    word: string
+export type RowProps = {
+    word: string,
+    rowStatus: Array<SquareStatus>
 }
 
 /**
@@ -16,12 +17,14 @@ type RowProps = {
  * In other words, make sure the word length is **not greater** than the column provided!
  * 
  */
-export default function Row({ cols, word }: RowProps) {
+export default function Row({ word, rowStatus }: RowProps) {
     function rows() {
         let result: JSX.Element[] = [];
 
-        for (let i = 0; i < cols; i++) {
-            result = [...result, <Square char={word.charAt(i)} status={1} key={uuidv4()} />];
+        for (let i = 0; i < WLENGTH; i++) {
+            result = [...result, 
+                <Square char={word.charAt(i)} status={rowStatus[i]} key={uuidv4()} />,
+            ];
         }
 
         return result;

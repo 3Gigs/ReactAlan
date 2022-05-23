@@ -6,11 +6,18 @@
 }
 
 .Square {
-    background-color: whitesmoke;
     font-family: monospace;
     font-size: 3vh;
     padding: 1em;
     margin: 5px;
+}
+
+.SquareNeutral {
+    background-color: whitesmoke;
+}
+
+.SquareCorrect {
+    background-color: #BCFF8E;
 }
 
 .Row {
