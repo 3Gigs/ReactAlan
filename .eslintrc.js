@@ -35,5 +35,6 @@ module.exports = {
         "no-trailing-spaces": "off",
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
+        "import/no-duplicates": "off",
     },
 };
