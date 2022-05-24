@@ -36,5 +36,6 @@ module.exports = {
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
         "import/no-duplicates": "off",
+        "import/no-extraneous-dependencies": "off",
     },
 };
