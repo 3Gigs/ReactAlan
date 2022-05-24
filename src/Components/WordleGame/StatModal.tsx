@@ -1,7 +1,19 @@
+import { useEffect } from "react";
 import { GameStatus, useStore } from "./Board";
 
 export default function StatModal() {
     const { gameStatus, word } = useStore();
+
+    useEffect(() => {
+        const modal = document.getElementById("Modal");
+        if (modal) {
+            if (gameStatus === GameStatus.NEUTRAL) {
+                modal.style.display = "none";
+            } else {
+                modal.style.display = "block";
+            }
+        }
+    });
 
     return (
         <div id="Modal">
