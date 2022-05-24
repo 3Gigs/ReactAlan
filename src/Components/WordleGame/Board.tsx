@@ -9,15 +9,21 @@ import { SquareStatus } from "./Square";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
 export const WLENGTH = 5;
+export enum GameStatus {
+    "NEUTRAL",
+    "WIN",
+    "LOSE",
+}
 export interface IGameStats {
     word: string;
-    isWin: boolean;
+    gameStatus: GameStatus;
 }
+
 interface IGameStatsStore extends IGameStats {
 // eslint-disable-next-line no-unused-vars
    setWord: (word: string) => void;
 // eslint-disable-next-line no-unused-vars
-   setIsWin: (isWinning: boolean) => void;
+   setGameStatus: (gameStat: GameStatus) => void;
 }
 
 type idRowProps = RowProps & {id: string};
@@ -25,20 +31,20 @@ type BoardProps = {
     rowC: number;
 }
 export const useStore = create<IGameStatsStore>((set) => ({
-    isWin: false,
+    gameStatus: GameStatus.NEUTRAL,
     word: "",
     setWord: (word: string) => set(
         () => ({ word }),
     ),
-    setIsWin: (isWin: boolean) => set(
-        () => ({ isWin }),
+    setGameStatus: (gameStatus: GameStatus) => set(
+        () => ({ gameStatus }),
     ),
 }));
 
 export default function Board({ rowC }: BoardProps) {
     const [rows, setRows] = useState<idRowProps[]>([]);
     const [currRow, setCurrRow] = useState<number>(0);
-    const { setIsWin: setIsWinning, setWord } = useStore();
+    const { setGameStatus, setWord } = useStore();
 
     useEffect(() => {
         alanBtn({
@@ -106,7 +112,7 @@ export default function Board({ rowC }: BoardProps) {
                 return false;
             }
             function gameWin() {
-                setIsWinning(true);
+                setGameStatus(GameStatus.WIN);
                 setWord("cools");
             }
 
@@ -142,7 +148,7 @@ export default function Board({ rowC }: BoardProps) {
         return function cleanup() {
             document.removeEventListener("keydown", handler);
         };
-    }, [rows, currRow, setIsWinning, setWord]);
+    }, [rows, currRow, setGameStatus, setWord]);
 
     return (
         <div className="Board">

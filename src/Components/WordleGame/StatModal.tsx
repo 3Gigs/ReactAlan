@@ -1,14 +1,14 @@
 import { useStore } from "./Board";
 
 export default function StatModal() {
-    const { isWin, word } = useStore();
+    const { gameStatus, word } = useStore();
 
     return (
         <div id="Modal">
             <div id="ModalContent">
                 <h1>
                     You
-                    {isWin ? " won!" : " lose..."}
+                    {gameStatus ? " won!" : " lose..."}
                 </h1>
                 <span>
                     Word of the day: 
