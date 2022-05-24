@@ -1,4 +1,4 @@
-import { useStore } from "./Board";
+import { GameStatus, useStore } from "./Board";
 
 export default function StatModal() {
     const { gameStatus, word } = useStore();
@@ -8,7 +8,16 @@ export default function StatModal() {
             <div id="ModalContent">
                 <h1>
                     You
-                    {gameStatus ? " won!" : " lose..."}
+                    {(() => {
+                        switch (gameStatus) {
+                        case GameStatus.WIN:
+                            return " win!";
+                        case GameStatus.LOSE:
+                            return " lose...";
+                        default:
+                            return "";
+                        }
+                    })()}
                 </h1>
                 <span>
                     Word of the day: 
