@@ -4,7 +4,8 @@ import "../../css/Wordle.css";
 export enum SquareStatus {
     "SquareWrong" = -1,
     "SquareNeutral" = 0,
-    "SquareCorrect" = 1
+    "SquarePartial" = 1,
+    "SquareCorrect" = 2,
 }
 
 type SquareProps = {

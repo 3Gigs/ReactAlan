@@ -1,3 +1,24 @@
+#Modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+#ModalContent {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid rgb(128, 128, 128);
+    border-radius: 25px;
+    width: 30%
+}
+
 .Board {
     border-style: dotted;
     border-width: 1px;
@@ -18,6 +39,14 @@
 
 .SquareCorrect {
     background-color: #BCFF8E;
+}
+
+.SquarePartial {
+    background-color: lightgoldenrodyellow;
+}
+
+.SquareWrong {
+    background-color: lightcoral;
 }
 
 .Row {
