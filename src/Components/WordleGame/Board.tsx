@@ -9,18 +9,10 @@ import { SquareStatus } from "./Square";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
 export const WLENGTH = 5;
-
-type BoardProps = {
-    rowC: number;
-}
-
-type idRowProps = RowProps & {id: string};
-
 export interface IGameStats {
     word: string;
     isWin: boolean;
 }
-
 interface IGameStatsStore extends IGameStats {
 // eslint-disable-next-line no-unused-vars
    setWord: (word: string) => void;
@@ -28,6 +20,10 @@ interface IGameStatsStore extends IGameStats {
    setIsWin: (isWinning: boolean) => void;
 }
 
+type idRowProps = RowProps & {id: string};
+type BoardProps = {
+    rowC: number;
+}
 export const useStore = create<IGameStatsStore>((set) => ({
     isWin: false,
     word: "",
