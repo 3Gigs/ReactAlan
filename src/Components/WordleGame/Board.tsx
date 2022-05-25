@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { RowProps } from "./Row";
 import Row from "./Row";
 import { SquareStatus } from "./Square";
-import { gameOptions } from "../../../config.json";
+import { gameOptions, alanKey } from "../../../config.json";
+import alanBtn from "@alan-ai/alan-sdk-web";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
 export enum GameStatus {
@@ -64,6 +65,19 @@ export default function Board({ rowC, word }: BoardProps) {
 
         setRowProps(result);
     }, [rowC]);
+    useEffect(() => {
+        if (!(window as any).tutorProject) {
+            alanBtn({
+                key: alanKey,
+                onCommand: ((commandData) => {
+                    if ((commandData as any).command === "go:back") {
+                        console.log("onCommand received!");
+                    }
+                }),
+            });
+        }
+    });
+
     /**
      * General game logic
      */
