@@ -14,7 +14,6 @@ type SquareProps = {
 }
 
 export default function Square({ char, status }: SquareProps) {
-    console.log(status);
     return (
         <div className={`Square ${SquareStatus[status]}`}>{char}</div>
     );

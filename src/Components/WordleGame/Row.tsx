@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import Square, { SquareStatus } from "./Square";
 
 export type RowProps = {
@@ -18,12 +19,20 @@ export type RowProps = {
  * 
  */
 export default function Row({ word, rowStatus, cols }: RowProps) {
+    const genId = (amount: number, ids: Array<string>): Array<string> => {
+        if (amount === 0) {
+            return ids;
+        }
+        return genId(amount - 1, [...ids, uuidv4()]);
+    };
+    const [keys] = useState(genId(cols, []));
+
     function rows() {
         let result: JSX.Element[] = [];
 
         for (let i = 0; i < cols; i++) {
             result = [...result, 
-                <Square char={word.charAt(i)} status={rowStatus[i]} key={uuidv4()} />,
+                <Square char={word.charAt(i)} status={rowStatus[i]} key={keys[i]} />,
             ];
         }
 
