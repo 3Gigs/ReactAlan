@@ -1,14 +1,13 @@
 import Board from "./Board";
 import "../../css/Wordle.css";
 import StatModal from "./StatModal";
-
-const TRIES = 5;
+import { gameOptions } from "../../../config.json";
 
 export default function WordleGame() {
     return (
         <div>
             <StatModal />
-            <Board rowC={TRIES} />
+            <Board rowC={gameOptions.TRIES} word="cools" />
         </div>
     );
 }

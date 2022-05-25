@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import create from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import alanBtn from "@alan-ai/alan-sdk-web";
-import { alanKey } from "../../../config.json";
 import { RowProps } from "./Row";
 import Row from "./Row";
 import { SquareStatus } from "./Square";
+import { gameOptions } from "../../../config.json";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
-export const WLENGTH = 5;
 export enum GameStatus {
     "NEUTRAL",
     "WIN",
@@ -29,6 +27,7 @@ interface IGameStatsStore extends IGameStats {
 type idRowProps = RowProps & {id: string};
 type BoardProps = {
     rowC: number;
+    word: string;
 }
 export const useStore = create<IGameStatsStore>((set) => ({
     gameStatus: GameStatus.NEUTRAL,
@@ -41,19 +40,21 @@ export const useStore = create<IGameStatsStore>((set) => ({
     ),
 }));
 
-export default function Board({ rowC }: BoardProps) {
+export default function Board({ rowC, word }: BoardProps) {
     const [rows, setRows] = useState<idRowProps[]>([]);
     const [currRow, setCurrRow] = useState<number>(0);
-    const { setGameStatus, setWord } = useStore();
+    const { setGameStatus, setWord, gameStatus } = useStore();
 
     /**
-     * Initialize board with rows
+     * Initialize board
      */
+    /** TODO: VARIABLE ROWSTATUS */
     useEffect(() => {
+        setWord(word);
         const result: idRowProps[] = [];
 
         for (let i = 0; i < rowC; i++) {
-            result.push({ word: "", id: uuidv4(), rowStatus: [0, 0, 0, 0, 0] });
+            result.push({ word: "", id: uuidv4(), rowStatus: [0, 0, 0, 0, 0], cols: gameOptions.WLENGTH });
         }
 
         setRows(result);
@@ -64,8 +65,8 @@ export default function Board({ rowC }: BoardProps) {
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
             const result = rows.map((e, i): idRowProps => {
-                if (i === row && (e.word.length + 1) <= WLENGTH) {
-                    return { rowStatus: e.rowStatus, id: e.id, word: e.word + char };
+                if (i === row && (e.word.length + 1) <= gameOptions.WLENGTH) {
+                    return { rowStatus: e.rowStatus, id: e.id, word: e.word + char, cols: gameOptions.WLENGTH };
                 }
                 return e;
             });
@@ -78,6 +79,7 @@ export default function Board({ rowC }: BoardProps) {
                         rowStatus: e.rowStatus, 
                         id: e.id, 
                         word: e.word.slice(0, e.word.length - 1),
+                        cols: gameOptions.WLENGTH,
                     };
                 }
                 return e;
@@ -96,42 +98,36 @@ export default function Board({ rowC }: BoardProps) {
                     }
                     return SquareStatus.SquareWrong;
                 });
+                console.log("CURRENT ROW: " + currRow);
                 return result;
             }
-            function isWinning() {
-                if (rows[currRow].word === "cools") {
-                    return true;
-                }
-                return false;
-            }
-            function gameWin() {
-                setGameStatus(GameStatus.WIN);
-                setWord("cools");
-            }
-
-            if (rows[currRow].word.length !== WLENGTH) {
-                return;
-            }
+            const isWinning = () => rows[currRow].word === "cools";
+            const isLosing = () => currRow >= gameOptions.TRIES - 1;
 
             setRows((e) => e.map((r, i) => {
                 if (i !== currRow) return r;
 
-                return { word: r.word, id: r.id, rowStatus: checkRow(currRow, "cools") };
+                return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow, "cools") };
             }));
 
-            if (!isWinning()) {
-                setCurrRow((r) => r + 1);
+            if(isWinning()) {
+                setGameStatus(GameStatus.WIN);
+            } else if (isLosing()) {
+                setGameStatus(GameStatus.LOSE);
             } else {
-                gameWin();
+                setCurrRow((r) => r + 1);
             }
         }
         const handler = (e: KeyboardEvent) => {
-            if (!e.repeat) {
+            if (!e.repeat && gameStatus === GameStatus.NEUTRAL) {
                 if (CHARS.indexOf(e.key) >= 0) {
                     appendCharToRow(currRow, e.key);
                 } else if (e.key === "Backspace") {
                     backspaceCharToRow(currRow);
                 } else if (e.key === "Enter") {
+                    if (rows[currRow].word.length !== gameOptions.WLENGTH) {
+                        return;
+                    }
                     handleGameNextAction();
                 }
             }
@@ -145,7 +141,7 @@ export default function Board({ rowC }: BoardProps) {
 
     return (
         <div className="Board">
-            {rows.map((e) => <Row word={e.word} key={e.id} rowStatus={e.rowStatus} />)}
+            {rows.map((e) => <Row word={e.word} key={e.id} rowStatus={e.rowStatus} cols={gameOptions.WLENGTH} />)}
         </div>
     );
 }
