@@ -46,13 +46,6 @@ export default function Board({ rowC }: BoardProps) {
     const [currRow, setCurrRow] = useState<number>(0);
     const { setGameStatus, setWord } = useStore();
 
-    useEffect(() => {
-        alanBtn({
-            key: alanKey,
-            onCommand: (commandData) => {
-            },
-        });
-    }, []);
     /**
      * Initialize board with rows
      */

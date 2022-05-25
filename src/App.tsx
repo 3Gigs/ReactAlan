@@ -6,6 +6,9 @@ import { alanKey } from "../config.json";
 
 function App() {
     useEffect(() => {
+        if ((window as any).tutorProject) {
+            return;
+        }
         alanBtn({
             key: alanKey,
             onCommand: ((commandData) => {
