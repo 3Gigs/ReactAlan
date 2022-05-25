@@ -41,7 +41,7 @@ export const useStore = create<IGameStatsStore>((set) => ({
 }));
 
 export default function Board({ rowC, word }: BoardProps) {
-    const [rows, setRows] = useState<idRowProps[]>([]);
+    const [rowProps, setRowProps] = useState<idRowProps[]>([]);
     const [currRow, setCurrRow] = useState<number>(0);
     const { setGameStatus, setWord, gameStatus } = useStore();
 
@@ -62,23 +62,23 @@ export default function Board({ rowC, word }: BoardProps) {
             result.push({ word: "", id: uuidv4(), rowStatus: initRowStatus(gameOptions.WLENGTH, []), cols: gameOptions.WLENGTH });
         }
 
-        setRows(result);
+        setRowProps(result);
     }, [rowC]);
     /**
      * General game logic
      */
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
-            const result = rows.map((e, i): idRowProps => {
+            const result = rowProps.map((e, i): idRowProps => {
                 if (i === row && (e.word.length + 1) <= gameOptions.WLENGTH) {
                     return { rowStatus: e.rowStatus, id: e.id, word: e.word + char, cols: gameOptions.WLENGTH };
                 }
                 return e;
             });
-            setRows(result);
+            setRowProps(result);
         }
         function backspaceCharToRow(row: number) {
-            const result = rows.map((e, i): idRowProps => {
+            const result = rowProps.map((e, i): idRowProps => {
                 if (i === row) {
                     return { 
                         rowStatus: e.rowStatus, 
@@ -89,11 +89,11 @@ export default function Board({ rowC, word }: BoardProps) {
                 }
                 return e;
             });
-            setRows(result);
+            setRowProps(result);
         }
         function handleGameNextAction() {
             function checkRow(index: number, word: string) {
-                const row = rows[index];
+                const row = rowProps[index];
                 const result = Array.from(row.word).map((c, i) => {
                     if (c === word.charAt(i)) {
                         return SquareStatus.SquareCorrect;
@@ -105,10 +105,10 @@ export default function Board({ rowC, word }: BoardProps) {
                 });
                 return result;
             }
-            const isWinning = () => rows[currRow].word === "cools";
+            const isWinning = () => rowProps[currRow].word === "cools";
             const isLosing = () => currRow >= gameOptions.TRIES - 1;
 
-            setRows((e) => e.map((r, i) => {
+            setRowProps((e) => e.map((r, i) => {
                 if (i !== currRow) return r;
 
                 return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow, "cools") };
@@ -129,7 +129,7 @@ export default function Board({ rowC, word }: BoardProps) {
                 } else if (e.key === "Backspace") {
                     backspaceCharToRow(currRow);
                 } else if (e.key === "Enter") {
-                    if (rows[currRow].word.length !== gameOptions.WLENGTH) {
+                    if (rowProps[currRow].word.length !== gameOptions.WLENGTH) {
                         return;
                     }
                     handleGameNextAction();
@@ -141,11 +141,11 @@ export default function Board({ rowC, word }: BoardProps) {
         return function cleanup() {
             document.removeEventListener("keydown", handler);
         };
-    }, [rows, currRow, setGameStatus, setWord]);
+    }, [rowProps, currRow, setGameStatus, setWord]);
 
     return (
         <div className="Board">
-            {rows.map((e) => <Row word={e.word} key={e.id} rowStatus={e.rowStatus} cols={gameOptions.WLENGTH} />)}
+            {rowProps.map((e) => <Row word={e.word} key={e.id} rowStatus={e.rowStatus} cols={gameOptions.WLENGTH} />)}
         </div>
     );
 }
