@@ -48,13 +48,18 @@ export default function Board({ rowC, word }: BoardProps) {
     /**
      * Initialize board
      */
-    /** TODO: VARIABLE ROWSTATUS */
     useEffect(() => {
         setWord(word);
         const result: idRowProps[] = [];
+        const initRowStatus = (cols: number, arr: Array<SquareStatus>): Array<SquareStatus> => {
+            if(cols === 0) {
+                return arr;
+            }
+            return initRowStatus(cols - 1, [...arr, SquareStatus.SquareNeutral])
+        }
 
         for (let i = 0; i < rowC; i++) {
-            result.push({ word: "", id: uuidv4(), rowStatus: [0, 0, 0, 0, 0], cols: gameOptions.WLENGTH });
+            result.push({ word: "", id: uuidv4(), rowStatus: initRowStatus(gameOptions.WLENGTH, []), cols: gameOptions.WLENGTH });
         }
 
         setRows(result);
