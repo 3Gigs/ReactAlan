@@ -65,6 +65,9 @@ export default function Board({ rowC, word }: BoardProps) {
 
         setRowProps(result);
     }, [rowC]);
+    /**
+     * Game logic (Alan AI)
+     */
     useEffect(() => {
         if (!(window as any).tutorProject) {
             alanBtn({
@@ -77,9 +80,8 @@ export default function Board({ rowC, word }: BoardProps) {
             });
         }
     });
-
     /**
-     * General game logic
+     * Game logic (Keyboard)
      */
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
