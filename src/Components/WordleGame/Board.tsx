@@ -98,7 +98,6 @@ export default function Board({ rowC, word }: BoardProps) {
                     }
                     return SquareStatus.SquareWrong;
                 });
-                console.log("CURRENT ROW: " + currRow);
                 return result;
             }
             const isWinning = () => rows[currRow].word === "cools";
