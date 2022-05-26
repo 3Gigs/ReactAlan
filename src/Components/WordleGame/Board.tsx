@@ -105,8 +105,34 @@ export default function Board({ rowC, word }: BoardProps) {
             alanBtn({
                 key: alanKey,
                 onCommand: ((commandData: any) => {
-                    if ((commandData).command === "setWord") {
-                        commandData.word
+                    switch(commandData.command) {
+                        case "setRowWord":
+                            setRowProps((r) => r.map((e, i) => {
+                                if (i === currRow) {
+                                    console.log(commandData);
+                                    if(!commandData.word) 
+                                        throw new Error("\"word\" in commandData is missing!");
+                                    return {...e, word: commandData.word.slice(0, gameOptions.WLENGTH)};
+                                }
+                                return e;
+                            }));
+                            break;
+                        case "nextGameAction":
+                            handleGameNextAction();
+                            (window as any).alanBtnInstance.callProjectApi("guessResult", {
+                                "guessResults": {
+                                    isWin: true
+                                }
+                            }, (error: any, result: any) => {
+                                    if(error) {
+                                        console.error(error);
+                                        return;
+                                    }
+                                    console.log(result);
+                                }
+                            );
+                        default:
+                            break;
                     }
                 }),
             });
