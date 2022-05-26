@@ -1,24 +1,7 @@
 import "./css/App.css";
-import { useEffect } from "react";
-import alanBtn from "@alan-ai/alan-sdk-web";
 import { Link } from "react-router-dom";
-import { alanKey } from "../config.json";
 
 function App() {
-    useEffect(() => {
-        if ((window as any).tutorProject) {
-            return;
-        }
-        alanBtn({
-            key: alanKey,
-            onCommand: ((commandData) => {
-                if ((commandData as any).command === "go:back") {
-                    console.log("onCommand received!");
-                }
-            }),
-        });
-    });
-
     return (
         <div className="App">
             <h1>Alan AI Apps</h1>
