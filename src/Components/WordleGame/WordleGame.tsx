@@ -9,6 +9,7 @@ export default function WordleGame() {
     (window as any).alanBtnInstance = alanBtn({
         key: alanKey,
         onCommand: ((commandData: any) => {
+            console.log(`SLDFJLDSFJLSDJFLSDJDLSDFJ ${commandData}`);
             switch (commandData.command) {
             case "setRowWord":
                 document.dispatchEvent(new CustomEvent("setRowWord", {

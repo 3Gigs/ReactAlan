@@ -6,11 +6,22 @@ export default function StatModal() {
 
     useEffect(() => {
         const modal = document.getElementById("Modal");
-        if (modal) {
-            if (gameStatus === GameStatus.NEUTRAL) {
+        const modalContent = document.getElementById("ModalContent");
+        if (modal && modalContent) {
+            switch (gameStatus) {
+            case GameStatus.NEUTRAL:
                 modal.style.display = "none";
-            } else {
+                break;
+            case GameStatus.LOSE:
+                modalContent.style.boxShadow = "0 8px 8px -4px lightcoral";
                 modal.style.display = "block";
+                break;
+            case GameStatus.WIN:
+                console.log(modalContent.style.boxShadow);
+                modalContent.style.boxShadow = "0 8px 8px -4px lightgreen";
+                modal.style.display = "block";
+                break;
+            default:    
             }
         }
     });
