@@ -11,14 +11,16 @@ export type RowProps = {
 /**
  * The Row component in a Wordle board
  * 
- * If word length is greater than cols, then the rest of the characters will 
- * be trimmed while creating the wordle squares, but the word variable will 
- * remain intact. 
+ * If word length is greater than cols, then it will throw an exception.
+ * Make sure the word length is **not greater** than the column provided!
  * 
- * In other words, make sure the word length is **not greater** than the column provided!
- * 
+ * @throws If word.length > cols
  */
 export default function Row({ word, rowStatus, cols }: RowProps) {
+    if (word.length > cols) {
+        throw new Error("The word provided is greater than column length!");
+    }
+
     const genId = (amount: number, ids: Array<string>): Array<string> => {
         if (amount === 0) {
             return ids;
