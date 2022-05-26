@@ -20,10 +20,10 @@
 }
 
 .Board {
-    border-style: dotted;
     border-width: 1px;
     display: inline-grid;
     grid-template-rows: repeat(5, 1fr);
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
 }
 
 .Square {
