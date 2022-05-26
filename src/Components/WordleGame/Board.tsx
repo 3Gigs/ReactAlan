@@ -123,7 +123,6 @@ export default function Board({ rowC, word }: BoardProps) {
      */
     useEffect(() => {
         function appendCharToRow(row: number, char: string) {
-            (window as any).alanBtnInstance.playCommand({command: "setRowWord", word: "howard"});
             const result = rowProps.map((e, i): idRowProps => {
                 if (i === row && (e.word.length + 1) <= gameOptions.WLENGTH) {
                     return { rowStatus: e.rowStatus, id: e.id, word: e.word + char, cols: gameOptions.WLENGTH };
