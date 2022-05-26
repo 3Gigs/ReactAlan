@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import WordleGame from "../Components/WordleGame/WordleGame";
 
 export default function Wordle() {
+    useEffect(() => {
+        document.title = "Wordle: Alan AI Edition";
+    });
+
     return (
         <main className="App">
             <h1>Wordle: Alan AI Edition</h1>
