@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import create from "zustand";
 import { v4 as uuidv4 } from "uuid";
 import { RowProps } from "./Row";
@@ -46,6 +46,38 @@ export default function Board({ rowC, word }: BoardProps) {
     const [currRow, setCurrRow] = useState<number>(0);
     const { setGameStatus, setWord, gameStatus } = useStore();
 
+    const handleGameNextAction = useCallback(() => {
+        function checkRow(index: number, word: string) {
+            const row = rowProps[index];
+            const result = Array.from(row.word).map((c, i) => {
+                if (c === word.charAt(i)) {
+                    return SquareStatus.SquareCorrect;
+                } 
+                if (word.indexOf(c) >= 0) {
+                    return SquareStatus.SquarePartial;
+                }
+                return SquareStatus.SquareWrong;
+            });
+            return result;
+        }
+        const isWinning = () => rowProps[currRow].word === "cools";
+        const isLosing = () => currRow >= gameOptions.TRIES - 1;
+
+        setRowProps((e) => e.map((r, i) => {
+            if (i !== currRow) return r;
+
+            return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow, "cools") };
+        }));
+
+        if(isWinning()) {
+            setGameStatus(GameStatus.WIN);
+        } else if (isLosing()) {
+            setGameStatus(GameStatus.LOSE);
+        } else {
+            setCurrRow((r) => r + 1);
+        }
+    }, [currRow, rowProps]);
+
     /**
      * Initialize board
      */
@@ -72,9 +104,9 @@ export default function Board({ rowC, word }: BoardProps) {
         if (!(window as any).tutorProject) {
             alanBtn({
                 key: alanKey,
-                onCommand: ((commandData) => {
-                    if ((commandData as any).command === "go:back") {
-                        console.log("onCommand received!");
+                onCommand: ((commandData: any) => {
+                    if ((commandData).command === "setWord") {
+                        commandData.word
                     }
                 }),
             });
@@ -106,37 +138,6 @@ export default function Board({ rowC, word }: BoardProps) {
                 return e;
             });
             setRowProps(result);
-        }
-        function handleGameNextAction() {
-            function checkRow(index: number, word: string) {
-                const row = rowProps[index];
-                const result = Array.from(row.word).map((c, i) => {
-                    if (c === word.charAt(i)) {
-                        return SquareStatus.SquareCorrect;
-                    } 
-                    if (word.indexOf(c) >= 0) {
-                        return SquareStatus.SquarePartial;
-                    }
-                    return SquareStatus.SquareWrong;
-                });
-                return result;
-            }
-            const isWinning = () => rowProps[currRow].word === "cools";
-            const isLosing = () => currRow >= gameOptions.TRIES - 1;
-
-            setRowProps((e) => e.map((r, i) => {
-                if (i !== currRow) return r;
-
-                return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow, "cools") };
-            }));
-
-            if(isWinning()) {
-                setGameStatus(GameStatus.WIN);
-            } else if (isLosing()) {
-                setGameStatus(GameStatus.LOSE);
-            } else {
-                setCurrRow((r) => r + 1);
-            }
         }
         const handler = (e: KeyboardEvent) => {
             if (!e.repeat && gameStatus === GameStatus.NEUTRAL) {
