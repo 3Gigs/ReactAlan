@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { RowProps } from "./Row";
 import Row from "./Row";
 import { SquareStatus } from "./Square";
-import { gameOptions, alanKey } from "../../../config.json";
-import alanBtn from "@alan-ai/alan-sdk-web";
+import { gameOptions } from "../../../config.json";
 
 export const CHARS = "abcdefghijklmnopqrstuvwxyz";
 export enum GameStatus {
@@ -49,6 +48,8 @@ export default function Board({ rowC, word }: BoardProps) {
     const handleGameNextAction = useCallback(() => {
         function checkRow(index: number, word: string) {
             const row = rowProps[index];
+            console.log(index);
+            console.log(rowProps);
             const result = Array.from(row.word).map((c, i) => {
                 if (c === word.charAt(i)) {
                     return SquareStatus.SquareCorrect;
@@ -76,6 +77,7 @@ export default function Board({ rowC, word }: BoardProps) {
         } else {
             setCurrRow((r) => r + 1);
         }
+
     }, [currRow, rowProps]);
 
     /**
@@ -98,46 +100,24 @@ export default function Board({ rowC, word }: BoardProps) {
         setRowProps(result);
     }, [rowC]);
     /**
-     * Game logic (Alan AI)
+     * Game Logic (Alan AI)
      */
-    useEffect(() => {
-        if (!(window as any).tutorProject) {
-            alanBtn({
-                key: alanKey,
-                onCommand: ((commandData: any) => {
-                    switch(commandData.command) {
-                        case "setRowWord":
-                            setRowProps((r) => r.map((e, i) => {
-                                if (i === currRow) {
-                                    console.log(commandData);
-                                    if(!commandData.word) 
-                                        throw new Error("\"word\" in commandData is missing!");
-                                    return {...e, word: commandData.word.slice(0, gameOptions.WLENGTH)};
-                                }
-                                return e;
-                            }));
-                            break;
-                        case "nextGameAction":
-                            handleGameNextAction();
-                            (window as any).alanBtnInstance.callProjectApi("guessResult", {
-                                "guessResults": {
-                                    isWin: true
-                                }
-                            }, (error: any, result: any) => {
-                                    if(error) {
-                                        console.error(error);
-                                        return;
-                                    }
-                                    console.log(result);
-                                }
-                            );
-                        default:
-                            break;
-                    }
-                }),
-            });
-        }
-    });
+    useEffect((): any => {
+        const eventHandlerRowWord = (e: any) => setRowProps((p) => p.map((r, i) => {
+            if(i === currRow) {
+                return {...r, word: e.detail.word}
+            }
+            return r;
+        }));
+        const eventHandlerNGAction = () => handleGameNextAction();
+
+        document.addEventListener("setRowWord", eventHandlerRowWord);
+        document.addEventListener("nextGameAction", eventHandlerNGAction);
+        return () => {
+            document.removeEventListener("setRowWord", eventHandlerRowWord)
+            document.removeEventListener("nextGameAction", eventHandlerNGAction);
+        };
+    }, [currRow, rowProps]);
     /**
      * Game logic (Keyboard)
      */
@@ -184,7 +164,7 @@ export default function Board({ rowC, word }: BoardProps) {
         return function cleanup() {
             document.removeEventListener("keydown", handler);
         };
-    }, [rowProps, currRow, setGameStatus, setWord]);
+    }, [rowProps, currRow, setWord]);
 
     return (
         <div className="Board">
