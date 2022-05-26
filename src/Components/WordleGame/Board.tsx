@@ -60,13 +60,13 @@ export default function Board({ rowC, word }: BoardProps) {
             });
             return result;
         }
-        const isWinning = () => rowProps[currRow].word === "cools";
+        const isWinning = () => rowProps[currRow].word === word;
         const isLosing = () => currRow >= gameOptions.TRIES - 1;
 
         setRowProps((e) => e.map((r, i) => {
             if (i !== currRow) return r;
 
-            return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow, "cools") };
+            return { word: r.word, id: r.id, cols: gameOptions.WLENGTH, rowStatus: checkRow(currRow,word) };
         }));
 
         if(isWinning()) {
