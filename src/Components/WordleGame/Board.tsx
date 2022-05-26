@@ -105,7 +105,7 @@ export default function Board({ rowC, word }: BoardProps) {
     useEffect((): any => {
         const eventHandlerRowWord = (e: any) => setRowProps((p) => p.map((r, i) => {
             if(i === currRow) {
-                return {...r, word: e.detail.word}
+                return {...r, word: e.detail.word.slice(0, gameOptions.WLENGTH)}
             }
             return r;
         }));
