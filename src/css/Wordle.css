@@ -1,3 +1,8 @@
+@keyframes AnimatePopIn {
+    0% { opacity: 0; transform: scale(0.25) }
+    100% { opacity: 1; transform: scale(1) }
+}
+
 #Modal {
     display: block;
     position: fixed;
@@ -12,6 +17,8 @@
 
 #ModalContent {
     background-color: #fefefe;
+    animation-name: AnimatePopIn;
+    animation-duration: 0.25s;
     margin: 15% auto;
     padding: 20px;
     box-shadow: 0 8px 8px -4px;
@@ -20,7 +27,8 @@
 }
 
 .Board {
-    border-width: 1px;
+    border-width: 2px;
+    border-radius: 12px;
     display: inline-grid;
     grid-template-rows: repeat(5, 1fr);
     box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
