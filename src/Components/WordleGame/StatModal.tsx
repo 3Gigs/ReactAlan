@@ -42,11 +42,30 @@ export default function StatModal() {
                         }
                     })()}
                 </h1>
-                <span>
+                <div>  
                     Word of the day: 
                     <br />
                     <i><b>{` ${word}`}</b></i>
-                </span>
+                </div>
+                <br />
+                <footer>
+                    <button onClick={() => window.location.reload()} type="button" className="ModalButton buttonPrimary">New Game</button>
+                    <button
+                        // eslint-disable-next-line react/jsx-indent-props
+                        onClick={() => {
+                            const modal = document.getElementById("Modal");
+                            if (modal) {
+                                modal.style.display = "none";
+                            }
+                        }}
+                        // eslint-disable-next-line react/jsx-indent-props
+                        type="button"
+                        // eslint-disable-next-line react/jsx-indent-props
+                        className="ModalButton buttonClose"
+                    >
+                        Close
+                    </button>
+                </footer>
             </div>
         </div>
     );

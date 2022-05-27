@@ -49,8 +49,6 @@ export default function Board({ rowC, word }: BoardProps) {
 
         function checkRow(index: number, word: string) {
             const row = rowProps[index];
-            console.log(index);
-            console.log(rowProps);
             const result = Array.from(row.word).map((c, i) => {
                 if (c === word.charAt(i)) {
                     return SquareStatus.SquareCorrect;

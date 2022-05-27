@@ -26,6 +26,28 @@
     width:25em; 
 }
 
+.ModalButton {
+    margin: 0px 5px 0px 5px;
+    border-width: 0px;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+button:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+}
+
+.buttonPrimary {
+    background-color: #0069d9;
+}
+
+.buttonClose {
+    background-color: #c82333;
+}
+
 .Board {
     border-width: 2px;
     border-radius: 12px;
