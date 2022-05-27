@@ -46,6 +46,7 @@ export default function Board({ rowC, word }: BoardProps) {
     const { setGameStatus, setWord, gameStatus } = useStore();
 
     const handleGameNextAction = useCallback(() => {
+
         function checkRow(index: number, word: string) {
             const row = rowProps[index];
             console.log(index);
@@ -79,7 +80,6 @@ export default function Board({ rowC, word }: BoardProps) {
         }
 
     }, [currRow, rowProps]);
-
     /**
      * Initialize board
      */
@@ -109,7 +109,9 @@ export default function Board({ rowC, word }: BoardProps) {
             }
             return r;
         }));
-        const eventHandlerNGAction = () => handleGameNextAction();
+        const eventHandlerNGAction = () => {
+            handleGameNextAction();
+        }
 
         document.addEventListener("setRowWord", eventHandlerRowWord);
         document.addEventListener("nextGameAction", eventHandlerNGAction);
@@ -118,6 +120,18 @@ export default function Board({ rowC, word }: BoardProps) {
             document.removeEventListener("nextGameAction", eventHandlerNGAction);
         };
     }, [currRow, rowProps]);
+    /**
+     * Phone back to Alan AI on game status
+     */
+    useEffect(() => {
+        if(!(window as any).alanBtnInstance) return;
+
+        (window as any).alanBtnInstance.callProjectApi("guessResult", {isWin: GameStatus[gameStatus], word}, (err: any) => {
+            if(err) {
+                console.error(err)
+            }
+        });
+    }, [gameStatus]);
     /**
      * Game logic (Keyboard)
      */
