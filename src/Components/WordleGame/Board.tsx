@@ -96,7 +96,7 @@ export default function Board({ rowC, word }: BoardProps) {
         }
 
         setRowProps(result);
-    }, []);
+    }, [word]);
     /**
      * Game Logic (Alan AI)
      */

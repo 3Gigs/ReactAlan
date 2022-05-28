@@ -15,8 +15,7 @@ export default function WordleGame() {
     useEffect(() => {
         const fetchWord = async () => fetch(dictionaryAPI);
         fetchWord().then((r) => r.text().then((w) => setWord(w)));
-        fetchWord().then((r) => r.text().then((w) => console.log(w)));
-    }, [word]);
+    }, []);
 
     return (
         <div>

@@ -4,5 +4,5 @@
         "TRIES": 5,
         "WLENGTH": 5
     },
-    "dictionaryAPI": "wordletionary.3gigs.xyz/word"
+    "dictionaryAPI": "https://wordletionary.3gigs.xyz/word"
 }
