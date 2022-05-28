@@ -71,19 +71,37 @@ export default function Board({ rowC, word }: BoardProps) {
 
         if(isWinning()) {
             setGameStatus(GameStatus.WIN);
+            if(!(window as any).alanBtnInstance) return;
+            (window as any).alanBtnInstance.callProjectApi("guessResult", {isWin: GameStatus[GameStatus.WIN], word}, (err: any) => {
+                if(err) {
+                    console.error(err)
+                }
+            });
         } else if (isLosing()) {
             setGameStatus(GameStatus.LOSE);
+            if(!(window as any).alanBtnInstance) return;
+            (window as any).alanBtnInstance.callProjectApi("guessResult", {isWin: GameStatus[GameStatus.LOSE], word}, (err: any) => {
+                if(err) {
+                    console.error(err)
+                }
+            });
         } else {
             setCurrRow((r) => r + 1);
-        }
+            if(!(window as any).alanBtnInstance) return;
+                (window as any).alanBtnInstance.callProjectApi("guessResult", {isWin: GameStatus[GameStatus.NEUTRAL], word}, (err: any) => {
+                    if(err) {
+                        console.error(err)
+                    }
+                });
+            }
 
-    }, [currRow, rowProps]);
-    /**
-     * Initialize board
-     */
-    useEffect(() => {
-        setWord(word);
-        const result: idRowProps[] = [];
+        }, [currRow, rowProps, gameStatus]);
+        /**
+         * Initialize board
+         */
+        useEffect(() => {
+            setWord(word);
+            const result: idRowProps[] = [];
         const initRowStatus = (cols: number, arr: Array<SquareStatus>): Array<SquareStatus> => {
             if(cols === 0) {
                 return arr;
@@ -118,18 +136,6 @@ export default function Board({ rowC, word }: BoardProps) {
             document.removeEventListener("nextGameAction", eventHandlerNGAction);
         };
     }, [currRow, rowProps]);
-    /**
-     * Phone back to Alan AI on game status
-     */
-    useEffect(() => {
-        if(!(window as any).alanBtnInstance) return;
-
-        (window as any).alanBtnInstance.callProjectApi("guessResult", {isWin: GameStatus[gameStatus], word}, (err: any) => {
-            if(err) {
-                console.error(err)
-            }
-        });
-    }, [gameStatus]);
     /**
      * Game logic (Keyboard)
      */

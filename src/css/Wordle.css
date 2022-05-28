@@ -3,6 +3,10 @@
     100% { opacity: 1; transform: scale(1) }
 }
 
+.WordleGame {
+    text-align: center;
+}
+
 #Modal {
     display: block;
     position: fixed;
