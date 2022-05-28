@@ -10,6 +10,8 @@ export default function WordleGame() {
 
     useEffect(() => {
         initAlanBtn();
+        (window as any).alanBtnInstance.activate();
+        (window as any).alanBtnInstance.callProjectApi("greetUser", {});
     }, []);
 
     useEffect(() => {
