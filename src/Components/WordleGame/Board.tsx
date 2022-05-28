@@ -95,7 +95,7 @@ export default function Board({ rowC, word }: BoardProps) {
                 });
             }
 
-        }, [currRow, rowProps, gameStatus]);
+        }, [currRow, rowProps]);
         /**
          * Initialize board
          */
@@ -126,7 +126,18 @@ export default function Board({ rowC, word }: BoardProps) {
             return r;
         }));
         const eventHandlerNGAction = () => {
-            handleGameNextAction();
+            if(rowProps[currRow].word.length !== gameOptions.WLENGTH) {
+                if((window as any).alanBtnInstance) {
+                    (window as any).alanBtnInstance.callProjectApi("wordUnderLength", {}, (err: any) => {
+                        if(err) {
+                            console.error(err)
+                        }
+                    });
+                }
+            } else {
+                handleGameNextAction();
+            }
+
         }
 
         document.addEventListener("setRowWord", eventHandlerRowWord);
