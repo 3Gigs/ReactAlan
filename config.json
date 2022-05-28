@@ -3,5 +3,6 @@
     "gameOptions" : {
         "TRIES": 5,
         "WLENGTH": 5
-    }
+    },
+    "dictionaryAPI": "wordletionary.3gigs.xyz/word"
 }
