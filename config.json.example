@@ -1,5 +1,5 @@
 {
-    "alanKey": "8eda527ef787b2eac88976e9550ffd182e956eca572e1d8b807a3e2338fdd0dc/stage",
+    "alanKey": ${YOUR ALAN KEY},
     "gameOptions" : {
         "TRIES": 5,
         "WLENGTH": 5
