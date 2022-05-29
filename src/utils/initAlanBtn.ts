@@ -17,6 +17,9 @@ const initAlanBtn = () => {
                     break;
                 case "nextGameAction":
                     document.dispatchEvent(new Event("nextGameAction"));
+                    break;  
+                case "restartGame":
+                    window.location.reload();
                     break;
                 default:
                     break;
